@@ -85,3 +85,19 @@ Why not calling both services and getting the response of the first that produce
 
 
 How can we achieve a behavior like this? _race_ is your friend.
+
+# 5) All
+
+## Summary
+
+In this sample we are going to continue exploring redux saga helper effects.
+
+Now it's time to evaluate the effect combinator _all_, this effect combinator is quite similar to 
+_promise.all_ let's imagine the following scenarios:
+
+  Before letting the user filter a grid by some given criterias you need to ensure that several endpoints
+  has returned you filtering enumerations (e.g. an end point returns you a list of countries, another
+  end point returns you the list of available organization units...). Is there a way to wait for 
+  several async requests to be completed? 
+
+  How can we achieve a behavior like this? _all_ is your friend.

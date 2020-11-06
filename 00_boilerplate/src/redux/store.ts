@@ -15,6 +15,6 @@ export const store = createStore(rootReducer,
     composeEnhancer(applyMiddleware(sagaMiddleware, logger)))
 
 sagaMiddleware.run(rootSaga)
-store.subscribe(() => {
-    console.log(store.getState());
-});
+// store.subscribe(() => {
+//     console.log(store.getState());
+// });
