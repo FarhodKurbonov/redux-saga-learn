@@ -58,3 +58,30 @@ About throttling: Spawns a saga on an action dispatched to the Store that matche
 More about throttling and debouncing: https://codeburst.io/throttling-and-debouncing-in-javascript-b01cad5c8edf
 
 How can we achieve a behavior like this? _throttle_ is your friend.
+
+# 4) Race
+
+## Summary
+
+In this sample we are going to continue exploring redux saga helper effects.
+
+Now it's time to evaluate the effect combinator _race_, let's imagine the following scenarios:
+
+A)
+  A given user makes an asynchronous call to the server that could take some time (e.g. check hotel 
+  availability, or booking flight ticket).
+
+  Meanwhile the request is being processed the user changes his mind and he wants to cancel the request,
+  he clicks quick into the cancel button.
+
+  What's the behavior the user should expect? If the request is in progress and he clicked on the cancel
+  button he shouldn't get the "operation completed" message.
+
+B)
+You got two ways of obtaining the same information from two providers (e.g. weather), depending on some
+factors at a given time one of the services response could be laggy.
+
+Why not calling both services and getting the response of the first that produced the response?
+
+
+How can we achieve a behavior like this? _race_ is your friend.

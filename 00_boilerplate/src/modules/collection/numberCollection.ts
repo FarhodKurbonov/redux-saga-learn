@@ -1,5 +1,5 @@
 import { BaseAction, Actions } from './types';
-import {call, put, throttle, all} from 'redux-saga/effects'
+import {call, put, takeEvery, all, race, take} from 'redux-saga/effects'
 import {generateNewNumber} from "../../api";
 export type NumberCollectionState = number[];
 
@@ -10,6 +10,10 @@ export const numberRequestStartAction = (): BaseAction => ({
 export const numberRequestCompletedAction = ( numberGenerated: number ): BaseAction => ({
   type: Actions.GET_NUMBER_REQUEST_COMPLETED,
   payload: numberGenerated
+})
+export const cancelOnGoingNumberRequestAction = (): BaseAction => ({
+  type: Actions.CANCEL_ONGOING_NUMBER_REQUEST,
+  payload: null
 })
 
 export const reducer = ( state: NumberCollectionState = [0], action: BaseAction) => {
@@ -23,11 +27,19 @@ export const reducer = ( state: NumberCollectionState = [0], action: BaseAction)
 
 export function* watchNewGeneratedNumberRequestStartSaga( ) {
   yield all([
-          throttle(500, Actions.GET_NUMBER_REQUEST_START, requestNewGeneratedNumberSaga),
+          takeEvery( Actions.GET_NUMBER_REQUEST_START, requestNewGeneratedNumberSaga),
       ])
 }
 
 function* requestNewGeneratedNumberSaga() {
-  const generatedNumber = yield call(generateNewNumber)
-  yield put(numberRequestCompletedAction(generatedNumber))
+
+  const {generatedNumber, cancel} = yield race({
+    generatedNumber: call(generateNewNumber),
+    cancel:  take(Actions.CANCEL_ONGOING_NUMBER_REQUEST)
+  })
+
+  if(!cancel)
+    yield put(numberRequestCompletedAction(generatedNumber))
+  else
+    take(Actions.CANCEL_ONGOING_NUMBER_REQUEST)
 }
