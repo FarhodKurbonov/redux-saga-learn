@@ -1,25 +1,27 @@
 import {connect, MapDispatchToProps} from "react-redux";
-import {numberRequestStartAction, cancelOnGoingNumberRequestAction} from "../../modules/collection/numberCollection";
+import {numberRequestStartAction, numberRequestUserConfirmationAction} from "../../modules/collection/numberCollection";
 import {NumberSetterComponent} from "./NumberSetterComponent";
+import {BaseAction} from "../../modules/collection/types";
 
 interface INumberSetterContainerDispatchToProps {
-    onRequestNumber: ()=> void
-    onCancelRequest:()=> void
+    onRequestNumber?: ()=> BaseAction
+    onUserConfirmNewNumberRequest?:(result)=> BaseAction
 }
 interface INumberSetterContainerOwnProps {
 
 }
 
 interface INumberSetterContainerStateToProps {
+
 }
 
 const mapDispatchToProps: MapDispatchToProps<INumberSetterContainerDispatchToProps, INumberSetterContainerOwnProps> =
     (dispatch, ownProps) => ({
         onRequestNumber: ()=> dispatch(numberRequestStartAction()),
-        onCancelRequest: ()=> dispatch(cancelOnGoingNumberRequestAction())
+        onUserConfirmNewNumberRequest: (result)=> dispatch(numberRequestUserConfirmationAction(result))
 })
 
 export const NumberSetterContainer = connect<INumberSetterContainerStateToProps, INumberSetterContainerDispatchToProps, INumberSetterContainerOwnProps>(
     null,
-    mapDispatchToProps
+    mapDispatchToProps as INumberSetterContainerDispatchToProps
 )(NumberSetterComponent)

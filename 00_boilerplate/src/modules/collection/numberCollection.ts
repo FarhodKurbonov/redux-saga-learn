@@ -1,8 +1,9 @@
 import { BaseAction, Actions } from './types';
-import {call, put, takeEvery, all, race } from 'redux-saga/effects'
+import {call, put, takeEvery, all, take } from 'redux-saga/effects'
 import {generateNewNumber, generateHigherNewNumber} from "../../api";
 export type NumberCollectionState = number[];
 
+// ==== Actions ====
 export const numberRequestStartAction = (): BaseAction => ({
   type: Actions.GET_NUMBER_REQUEST_START,
   payload: null,
@@ -19,6 +20,12 @@ export const cancelOnGoingNumberRequestAction = (): BaseAction => ({
   type: Actions.CANCEL_ONGOING_NUMBER_REQUEST,
   payload: null
 })
+export const numberRequestUserConfirmationAction = (goahead: boolean): BaseAction => {
+  return{
+    type: Actions.GET_NUMBER_REQUEST_USER_CONFIRMATION,
+    payload: goahead
+  }
+}
 
 export const reducer = ( state: NumberCollectionState = [0], action: BaseAction) => {
   switch (action.type) {
@@ -30,6 +37,8 @@ export const reducer = ( state: NumberCollectionState = [0], action: BaseAction)
   return state
 };
 
+
+// === Side Effects ===
 export function* watchNewGeneratedNumberRequestStartSaga( ) {
   yield all([
           takeEvery( Actions.GET_NUMBER_REQUEST_START, requestNewGeneratedNumberSaga),
@@ -37,14 +46,19 @@ export function* watchNewGeneratedNumberRequestStartSaga( ) {
 }
 
 function* requestNewGeneratedNumberSaga() {
+  const result = yield take(Actions.GET_NUMBER_REQUEST_USER_CONFIRMATION);
+  if(result.payload == true) {
+    const {generatedNumber, generatedHigherNumber} = yield all({
+      generatedNumber:  call(generateNewNumber),
+      generatedHigherNumber:  call(generateHigherNewNumber)
+    })
+    yield put(numberRequestCompletedAction(generatedNumber))
+    yield put(numberRequestCompletedAction(generatedHigherNumber))
+  }
 
-  const {generatedNumber, generatedHigherNumber} = yield all({
-    generatedNumber:  call(generateNewNumber),
-    generatedHigherNumber:  call(generateHigherNewNumber)
-  })
-      yield put(numberRequestCompletedAction(generatedNumber))
-      yield put(higherNumberRequestCompletedAction(generatedHigherNumber))
 
 }
+
+
 
 

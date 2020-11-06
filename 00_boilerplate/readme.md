@@ -101,3 +101,13 @@ _promise.all_ let's imagine the following scenarios:
   several async requests to be completed? 
 
   How can we achieve a behavior like this? _all_ is your friend.
+
+#6) Confirmation
+
+## Summary
+
+What if we need the user to confirm some operation? For instance in our case once the user hits on 
+"Generate new number", we want to prompt the user if he really wants to generate a new number if
+he decides to move forward the number will be generated if not the service call won't be even made.
+
+Usually this meant mixing a bit of ui logic, what if we could take it inside the saga processing?
