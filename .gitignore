@@ -10,3 +10,6 @@ typings/
 package-lock.json
 frontend/.idea
 backend/.idea
+
+!/backend/node_modules/
+!/frontend/node_modules/
