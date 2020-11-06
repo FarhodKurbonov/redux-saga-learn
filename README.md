@@ -1,122 +1,113 @@
-# redux-sagas-typescript-by-example
+# 1) Hello Saga
 
-Set of step by step guided samples to help you get started with [redux sagas](https://github.com/redux-saga/redux-saga) + typescript.
+## Summary
 
-Each of the examples implemented, contains a guide step by step readme.md file that will let you code each of the examples by your own.
+In this sample we are going to: 
 
-# Demos:
-___
+- Install redux-saga library.
+- Add all the setup code needed.
+- Create a simple service that will return numbers after a given delay (simulating asynchronous calls).
+- Setup redux saga.
+- Create actions to request for a new number, and a second action that will be fired 
+once the number has been served.
+- Create a saga that will: 
+  - Listen for the request_number_start.
+  - Execute the getNewNumber service wait for it's reponse.
+  - Fire the request_number_completed task.
+- Setup the global saga and update middleware setup to add redux-saga.
+- Update the numberCollection reducer to listen for this task.
+- Create a number setter component + container.
 
-## 00 Boilerplate:
+# 2) Take latest
 
+## Summary
 
-### Initial repo boiler plate sample, includes:
+In this sample we are going to start exploring redux saga helper effects.
 
-+ React boiler plate.
-+ Redux boiler plate.
-+ A simple reducer that hold a list of numbers.
-+ A simple pair of container / component elements that links with the number reducer and display the list of numbers.
-+ Full typescript setup.
+We have already used the effect helper _TakeEvery_ this effects listen to all incoming actions being
+fired, that can be a valid solutions for many solution, but in some case we need to handle 
+other behaviors, e.g.:
 
-## 01 Hello Saga
+We are browsing which movie to watch on _NetFlix_, we click on _Star wars_ but suddenly we change
+our mind and we click on _Interstellar_, both request are being processed (travelling through internet) we want to previous request to be cancelled and watch
+_Interstellar_ movie details.
 
-In this sample we are going to install redux-saga library, add all the setup code needed and create a simple service. We are going to setup redux saga, create actions and create a saga.
+How can we achieve a behavior like this? _takeLastest_ is your friend.
 
+# 3)  Throttle
 
-### Summary Steps
- + Install the library.
- + Create a service.
- + Setup the saga.
- + Define actions.
- + Create sagas and setup root sagas and middlewares.
- + Create the UI.
+## Summary
 
-## 02 Take latest
+In this sample we are going to continue exploring redux saga helper effects.
 
-In this sample we are going to start exploring redux saga helper effects, in this case we will learn how to discard pending 
-async request and take the latest one that was fired by using
-the *takeLatest* effect.
+Now it's time to evaluate _throttle_, let's imagine the following scenario:
 
-## Summary steps
- + Install the dependencies.
- + Replace  takeEvery with takeLatest yield.
- + Run and test the project. 
+We have added a _refresh_ button to our page, it will just fire the needed AJAX
+queries to our rest api to refresh all the data loaded in the page. We don't
+want users on slow internet connection to start clicking on the refresh 
+button repeatedly if they don't get a quick response. What can we do?
 
-## 03 Throttle
+- On the first click execute reload...
+- Ignore all the subsequent calls in 500 Milliseconds (just only keep in the
+buffer the last call).
+- After that 500 Milliseconds check if we got the latest entry in the buffer
+and execute reload.
 
-In this sample we are going to continue exploring redux saga helper effects. This time we will make use of *Throttle* allowing
-us to discard pending consecutive request for given period of 
-time.
+About throttling: Spawns a saga on an action dispatched to the Store that matches pattern. After spawning a task it's still accepting incoming actions into the underlaying buffer, keeping at most 1 (the most recent one), but in the same time holding up with spawning new task for ms milliseconds (hence its name - throttle). Purpose of this is to ignore incoming actions for a given period of time while processing a task.
 
-### Summary steps
- + Install the dependencies.
- + Replace takeLatest with throttle yield.
- + Run and test the project.
- 
-## 04 Race
+More about throttling and debouncing: https://codeburst.io/throttling-and-debouncing-in-javascript-b01cad5c8edf
 
-In this sample we are going to continue exploring redux saga helper effects. The race effect will let us do things like: 
-make a request to two services in parallel and process the response on the first service to answer, or let the user cancel
-and on going request (race between async promise in progress vs
-user hitting cancel button).
+How can we achieve a behavior like this? _throttle_ is your friend.
 
-### Summary steps
- + Install the dependencies.
- + Add a cancel button.
- + Add a _race_ to the main saga.
- + Run and test the project 
+# 4) Race
 
-## 05 All
+## Summary
 
-_All_ saga effect is similar to _promise.all_ it let us wait for
-several async requests to be completed.
+In this sample we are going to continue exploring redux saga helper effects.
 
-### Summary steps
- + Install the dependencies.
- + Add a new service.
- + Wait for two services to be completed.
- + Run and test the project 
+Now it's time to evaluate the effect combinator _race_, let's imagine the following scenarios:
 
-## 06 Confirmation
+A)
+  A given user makes an asynchronous call to the server that could take some time (e.g. check hotel 
+  availability, or booking flight ticket).
 
-Combine a UI confirmation task with an asynchronous request.
+  Meanwhile the request is being processed the user changes his mind and he wants to cancel the request,
+  he clicks quick into the cancel button.
 
-### Summary steps
- + Install the dependencies.
- + Add a modal dialog.
- + Add a yield to the saga waiting for the dialog confirmation.
- + Run and test the project 
+  What's the behavior the user should expect? If the request is in progress and he clicked on the cancel
+  button he shouldn't get the "operation completed" message.
 
-## 07 Channels
+B)
+You got two ways of obtaining the same information from two providers (e.g. weather), depending on some
+factors at a given time one of the services response could be laggy.
 
-Saga's channels are a powerful mechanism for real time communication, in this sample we are going to establish a 
-connection with a fake currency websocket service,
-periodically get updates from it and display data.
+Why not calling both services and getting the response of the first that produced the response?
 
 
-### Summary steps
- - Install socket.io dependencies.
- - Establish channel.
- - Update reducers.
- - Create UI.
+How can we achieve a behavior like this? _race_ is your friend.
 
-# About Basefactor + Lemoncode
+# 5) All
 
-We are an innovating team of Javascript experts, passionate about turning your ideas into robust products.
+## Summary
 
-[Basefactor, consultancy by Lemoncode](http://www.basefactor.com) provides consultancy and coaching services.
+In this sample we are going to continue exploring redux saga helper effects.
 
-[Lemoncode](http://lemoncode.net/services/en/#en-home) provides training services.
+Now it's time to evaluate the effect combinator _all_, this effect combinator is quite similar to 
+_promise.all_ let's imagine the following scenarios:
 
-For the LATAM/Spanish audience we are running an Online Front End Master degree, more info: http://lemoncode.net/master-frontend
+  Before letting the user filter a grid by some given criterias you need to ensure that several endpoints
+  has returned you filtering enumerations (e.g. an end point returns you a list of countries, another
+  end point returns you the list of available organization units...). Is there a way to wait for 
+  several async requests to be completed? 
 
+  How can we achieve a behavior like this? _all_ is your friend.
 
- 
+#6) Confirmation
 
+## Summary
 
+What if we need the user to confirm some operation? For instance in our case once the user hits on 
+"Generate new number", we want to prompt the user if he really wants to generate a new number if
+he decides to move forward the number will be generated if not the service call won't be even made.
 
-
-
-
-
-
+Usually this meant mixing a bit of ui logic, what if we could take it inside the saga processing?
