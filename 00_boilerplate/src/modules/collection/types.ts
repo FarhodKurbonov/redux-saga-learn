@@ -6,7 +6,7 @@ export const GET_NUMBER_REQUEST_START = `${APP_NAME}/${MODULE_NAME}/GET_NUMBER_R
 //'[1] NumberGenerator async service returned a new number.'
 export const GET_NUMBER_REQUEST_COMPLETED = `${APP_NAME}/${MODULE_NAME}/GET_NUMBER_REQUEST_COMPLETED`
 
-export const actionIds = {
+export const Actions = {
     GET_NUMBER_REQUEST_START,
     GET_NUMBER_REQUEST_COMPLETED
 }
