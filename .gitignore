@@ -8,3 +8,5 @@ typings/
 *.log
 **/.vscode/
 package-lock.json
+frontend/.idea
+backend/.idea
