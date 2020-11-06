@@ -5,7 +5,6 @@ interface INumberSetterComponentOwnProps {
 }
 
 export const NumberSetterComponent: React.FC<INumberSetterComponentOwnProps> = ({onRequestNumber}) => {
-    debugger
     return (
         <button onClick={onRequestNumber}>Request new number</button>
     )

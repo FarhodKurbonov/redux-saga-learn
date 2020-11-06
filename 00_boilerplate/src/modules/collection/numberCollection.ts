@@ -1,5 +1,5 @@
 import { BaseAction, actionIds } from './types';
-import {call, put, takeEvery} from 'redux-saga/effects'
+import {call, put, takeLatest} from 'redux-saga/effects'
 import {generateNewNumber} from "../../api";
 export type NumberCollectionState = number[];
 
@@ -22,7 +22,7 @@ export const reducer = ( state: NumberCollectionState = [0], action: BaseAction)
 
 
 export function* watchNewGeneratedNumberRequestStartSaga( ) {
-  yield takeEvery(
+  yield takeLatest(
       actionIds.GET_NUMBER_REQUEST_START,
       requestNewGeneratedNumberSaga
   )
