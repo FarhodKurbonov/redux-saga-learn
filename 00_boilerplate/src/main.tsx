@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { NumberViewerContainer } from './components';
+import { NumberViewContainer } from './components';
 import { Provider } from 'react-redux';
-import { store } from './store';
+import { store } from './redux/store';
 
 ReactDOM.render(
   <Provider store={store}>
     <>
-      <NumberViewerContainer />
+      <NumberViewContainer />
     </>
   </Provider>,
   document.getElementById('root')
