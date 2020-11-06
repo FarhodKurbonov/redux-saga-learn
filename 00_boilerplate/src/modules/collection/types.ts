@@ -1,5 +1,5 @@
 import {APP_NAME} from "../../config";
-export const MODULE_NAME = 'collection'
+export const MODULE_NAME = 'COLLECTION'
 
 // '[0] Request a new number to the NumberGenerator async service.'
 export const GET_NUMBER_REQUEST_START = `${APP_NAME}/${MODULE_NAME}/GET_NUMBER_REQUEST_START`

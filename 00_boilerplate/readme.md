@@ -33,3 +33,28 @@ our mind and we click on _Interstellar_, both request are being processed (trave
 _Interstellar_ movie details.
 
 How can we achieve a behavior like this? _takeLastest_ is your friend.
+
+# 3)  Throttle
+
+## Summary
+
+In this sample we are going to continue exploring redux saga helper effects.
+
+Now it's time to evaluate _throttle_, let's imagine the following scenario:
+
+We have added a _refresh_ button to our page, it will just fire the needed AJAX
+queries to our rest api to refresh all the data loaded in the page. We don't
+want users on slow internet connection to start clicking on the refresh 
+button repeatedly if they don't get a quick response. What can we do?
+
+- On the first click execute reload...
+- Ignore all the subsequent calls in 500 Milliseconds (just only keep in the
+buffer the last call).
+- After that 500 Milliseconds check if we got the latest entry in the buffer
+and execute reload.
+
+About throttling: Spawns a saga on an action dispatched to the Store that matches pattern. After spawning a task it's still accepting incoming actions into the underlaying buffer, keeping at most 1 (the most recent one), but in the same time holding up with spawning new task for ms milliseconds (hence its name - throttle). Purpose of this is to ignore incoming actions for a given period of time while processing a task.
+
+More about throttling and debouncing: https://codeburst.io/throttling-and-debouncing-in-javascript-b01cad5c8edf
+
+How can we achieve a behavior like this? _throttle_ is your friend.
