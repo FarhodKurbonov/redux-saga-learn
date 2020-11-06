@@ -3,7 +3,7 @@ import {call, put, takeEvery, all, take } from 'redux-saga/effects'
 import {generateNewNumber, generateHigherNewNumber} from "../../api";
 export type NumberCollectionState = number[];
 
-// ==== Actions ====
+// ==== Action creators ====
 export const numberRequestStartAction = (): BaseAction => ({
   type: Actions.GET_NUMBER_REQUEST_START,
   payload: null,
@@ -26,6 +26,12 @@ export const numberRequestUserConfirmationAction = (goahead: boolean): BaseActio
     payload: goahead
   }
 }
+export const startSocketSubscriptionAction : () => BaseAction = () => ({
+  type: Actions.START_SOCKET_SUBSCRIPTION,
+})
+export const stopSocketSubscriptionAction : () => BaseAction = () => ({
+  type: Actions.STOP_SOCKET_SUBSCRIPTION,
+})
 
 export const reducer = ( state: NumberCollectionState = [0], action: BaseAction) => {
   switch (action.type) {
